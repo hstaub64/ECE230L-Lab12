@@ -1,4 +1,4 @@
-module d_flipflop(
+module d_flipflop (
     input clk,
     input rst,
     input d,
