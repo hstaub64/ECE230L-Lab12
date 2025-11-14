@@ -1,11 +1,13 @@
-module d_flipflop (
+module d_flipflop(
     input clk,
     input rst,
     input d,
     output reg q
 );
 
-always @(posedge clk or posedge rst) begin
+
+initial begin q <= 1'b0;   end 
+always @(posedge clk ) begin
     if (rst)
         q <= 1'b0;
     else

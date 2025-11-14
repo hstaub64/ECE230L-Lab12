@@ -7,13 +7,13 @@ module modulo_counter(
     output [2:0] Q,
     output out
     );
-    
+     
+    assign compare_reset = (Q[2] & ~Q[1] & Q[0]);
     wire count [2:0];
     wire compare_reset;
     wire count_rst;
     wire [2:0] sum;
-    
-    wire five;
+    wire d_output;
   
     
     full_adder zero(
@@ -39,8 +39,7 @@ module modulo_counter(
         .sum(sum[2]),
         .cout(count[2])
     );
-    
-    assign compare_reset = (Q == 3'b110);
+   
     
     assign count_rst = rst | compare_reset;
     
@@ -66,7 +65,7 @@ module modulo_counter(
 );
 // think using tenure conditoin (condition stament )   x = ? : 
 
-assign compare_reset = !(sum == 3'b000) ? (compare_reset ^ out) : 1'b0;
+// assign compare_reset = !(sum == 3'b000) ? (compare_reset ^ out) : 1'b0;
 
 //reg out_d;
 //always @(*) begin
@@ -76,11 +75,13 @@ assign compare_reset = !(sum == 3'b000) ? (compare_reset ^ out) : 1'b0;
 //    out_d = out;
 //end
 
+assign d_output = compare_reset ^ out;
 
-d_flipflop dff_out (
+d_flipflop dff_out(
     .clk(clk),
     .rst(rst),
-    .d(compare_reset),
+    //.d(compare_reset ? ~out : out),
+    .d(d_output),
     .q(out)
 );
 
